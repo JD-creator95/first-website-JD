@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Juan De Bruyn — Portfolio</title>
+  <meta name="description" content="Portfolio website for Juan De Bruyn: about, skills, projects, contact, and CV." />
+  <link rel="icon" type="image/png" href="image.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ====== Base / Theme ====== */
+    :root {
+      --bg: #f5f5f5;
+      --panel: #ffffff;
+      --text: #2d2d2d;
+      --muted: #666666;
+      --brand: #7c5cff;
+      --brand-2: #68d391;
+      --border: #d0d0d0;
+      --card: #ffffff;
+      --shadow: rgba(0,0,0,0.1);
+      --focus: #ffd166;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f5f5f5;
+        --panel: #ffffff;
+        --text: #2d2d2d;
+        --muted: #666666;
+        --brand: #7c5cff;
+        --brand-2: #68d391;
+        --border: #d0d0d0;
+        --card: #ffffff;
+        --shadow: rgba(0,0,0,0.1);
+        --focus: #9c4221;
+      }
+    }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+    a { color: var(--brand); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+
+    /* ====== Header / Nav ====== */
+    .skip-link { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+    .skip-link:focus { left: 16px; top: 16px; width: auto; height: auto; padding: 8px 12px; background: var(--focus); color: #000; border-radius: 6px; }
+
+    header {
+      position: sticky; top: 0; z-index: 10;
+      background: color-mix(in oklab, var(--bg) 80%, transparent);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      height: 64px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: .2px; }
+    .brand .logo {
+      width: 32px; height: 32px; border-radius: 8px; background:
+        conic-gradient(from 200deg, var(--brand), var(--brand-2));
+      box-shadow: 0 6px 18px var(--shadow);
+    }
+    .nav ul { list-style: none; display: flex; gap: 18px; margin: 0; padding: 0; }
+    .nav a { font-weight: 600; padding: 6px 10px; border-radius: 8px; }
+    .nav a:hover { background: var(--panel); text-decoration: none; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px;
+      border: 1px solid var(--border); background: var(--card); color: var(--text);
+      border-radius: 12px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 14px var(--shadow);
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 18px var(--shadow); }
+
+    /* ====== Hero ====== */
+    .hero { padding: 64px 0 32px; }
+    .hero .grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 28px; align-items: center; }
+    .hero h1 { font-size: clamp(28px, 4.5vw, 48px); line-height: 1.15; margin: 0 0 16px; }
+    .hero p.lead { font-size: 18px; color: var(--muted); margin: 0 0 24px; }
+    .tag { display: inline-block; font-size: 13px; color: var(--brand-2); border: 1px solid var(--border); padding: 6px 10px; border-radius: 999px; margin-right: 8px; }
+    .headshot { width: 100%; aspect-ratio: 1/1; border-radius: 24px; background: url('PPic.jpg') center/cover;
+      box-shadow: 0 20px 60px var(--shadow); border: 1px solid var(--border); }
+
+    /* ====== Sections ====== */
+    section { padding: 56px 0; border-top: 1px solid var(--border); }
+    h2 { font-size: clamp(22px, 3.5vw, 34px); margin: 0 0 18px; }
+    .muted { color: var(--muted); }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 18px; box-shadow: 0 8px 24px var(--shadow); }
+    .card h3 { margin: 0 0 8px; font-size: 18px; }
+    .mono { font-family: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; }
+
+    /* Projects */
+    .project { display: grid; grid-template-columns: .9fr 1.1fr; gap: 18px; align-items: center; }
+    .project + .project { margin-top: 18px; }
+    .project .thumb { aspect-ratio: 16/10; background: linear-gradient(135deg, var(--brand), var(--brand-2)); border-radius: 12px; border: 1px solid var(--border);
+      box-shadow: 0 14px 26px var(--shadow); }
+    .project .meta { font-size: 14px; color: var(--muted); }
+
+    /* Contact */
+    .contact-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; }
+    form { display: grid; gap: 12px; }
+    input, textarea { background: var(--panel); color: var(--text); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; font: inherit; }
+    textarea { min-height: 120px; resize: vertical; }
+    .small { font-size: 13px; }
+
+    /* Skills Progress Bars */
+    .skill-item { margin-bottom: 20px; }
+    .skill-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+    .skill-name { font-weight: 600; }
+    .skill-level { color: var(--muted); font-size: 13px; }
+    .progress-bar { background: var(--border); height: 8px; border-radius: 4px; overflow: hidden; }
+    .progress-fill { background: linear-gradient(90deg, var(--brand), var(--brand-2)); height: 100%; border-radius: 4px; transition: width 0.6s ease-out; }
+
+    /* Form validation feedback */
+    input.invalid, textarea.invalid { border-color: #ef4444; background: color-mix(in srgb, #ef4444 10%, var(--panel)); }
+    input.valid, textarea.valid { border-color: var(--brand-2); }
+    .error-message { color: #ef4444; font-size: 12px; margin-top: 4px; display: none; }
+    .error-message.show { display: block; }
+
+    /* Footer */
+    footer { padding: 28px 0 56px; color: var(--muted); text-align: center; }
+
+
+    .container { width: 980px; }
+
+   
+    .row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .spacer { height: 16px; }
+    .right { text-align: right; }
+
+    /* Focus styles */
+    :focus { outline: 3px solid var(--focus); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <span>Juan De Bruyn</span>
+      </div>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="CV.pdf" class="btn" target="_blank" rel="noopener">Download CV</a></li>
+          <li><button class="btn" id="themeToggle" type="button" aria-pressed="false">Toggle Theme</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero container" id="about">
+      <div class="grid">
+        <div>
+          <span class="tag">Open to opportunities</span>
+          <h1>Hi, I'm Juan — a budding software engineer who loves clean code, tidy UIs, and building useful things.</h1>
+          <p class="lead">I’m currently studying and growing my skills through hands-on projects. I enjoy Java, web development, and turning requirements into working software. On this page you’ll find my tech stack, a few projects, and ways to reach me.</p>
+          <div class="row">
+            <a class="btn" href="#projects">View Projects</a>
+            <a class="btn" href="mailto:" id="emailLink">Email me</a>
+            <a class="btn" href="https://za.linkedin.com/in/juan-de-bruyn-043423165" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+        </div>
+        <div class="headshot" aria-label="Portrait placeholder"></div>
+      </div>
+    </section>
+
+    <section class="container" id="skills" aria-labelledby="skills-title">
+      <h2 id="skills-title">Skills — Tech Stack</h2>
+      <p class="muted">Languages, tools, and concepts I’m working with.</p>
+      <div class="cards">
+        <div class="card">
+          <h3>Languages</h3>
+          <p class="mono">Java, HTML, CSS, JavaScript, SQL</p>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">Java</span>
+              <span class="skill-level">75%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 0%;" data-target="85"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">JavaScript</span>
+              <span class="skill-level">65%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 0%;" data-target="70"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">HTML/CSS</span>
+              <span class="skill-level">60%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 0%;" data-target="80"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">SQL</span>
+              <span class="skill-level">65%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 0%;" data-target="65"></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Tools</h3>
+          <p class="mono">VS Code, Git & GitHub, IntelliJ / Eclipse, Postman, Draw.io</p>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">Git & GitHub</span>
+              <span class="skill-level">75%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 0%;" data-target="75"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">VS Code</span>
+              <span class="skill-level">90%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 0%;" data-target="90"></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Concepts</h3>
+          <p class="mono">OOP, REST, MVC, CRUD, Basic Data Structures</p>
+          <div class="skill-item">
+            <div class="skill-header">
+              <span class="skill-name">OOP</span>
+              <span class="skill-level">80%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 0%;" data-target="80"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container" id="projects" aria-labelledby="projects-title">
+      <h2 id="projects-title">Projects</h2>
+      <p class="muted">A selection of projects I've worked on throughout my coding journey.</p>
+
+      <article class="project">
+        <div class="thumb" aria-hidden="true">
+          <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+            <rect width="300" height="200" fill="url(#grad1)"/>
+            <defs>
+              <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#7c5cff;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#68d391;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <!-- Magnifying glass -->
+            <circle cx="150" cy="80" r="35" fill="none" stroke="white" stroke-width="3"/>
+            <line x1="180" y1="110" x2="210" y2="140" stroke="white" stroke-width="3"/>
+            <!-- Question mark -->
+            <text x="150" y="150" font-size="48" fill="white" text-anchor="middle" font-weight="bold">?</text>
+          </svg>
+        </div>
+        <div>
+          <h3>Mystery Game</h3>
+          <p>An interactive text-based mystery game with branching storylines and multiple endings. Features player choices, inventory management, and dynamic narrative flow.</p>
+          <p class="meta">Tech: Java · <a href="https://github.com/JD-creator95/Mystery-Game" target="_blank" rel="noopener">Source</a></p>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="thumb" aria-hidden="true">
+          <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+            <rect width="300" height="200" fill="url(#grad2)"/>
+            <defs>
+              <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#7c5cff;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#68d391;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <!-- Building with windows -->
+            <rect x="80" y="60" width="140" height="110" fill="white" stroke="white" stroke-width="2"/>
+            <!-- Windows row 1 -->
+            <rect x="100" y="75" width="20" height="20" fill="#7c5cff"/>
+            <rect x="140" y="75" width="20" height="20" fill="#7c5cff"/>
+            <rect x="180" y="75" width="20" height="20" fill="#7c5cff"/>
+            <!-- Windows row 2 -->
+            <rect x="100" y="110" width="20" height="20" fill="#7c5cff"/>
+            <rect x="140" y="110" width="20" height="20" fill="#68d391"/>
+            <rect x="180" y="110" width="20" height="20" fill="#7c5cff"/>
+            <!-- Door -->
+            <rect x="135" y="145" width="30" height="25" fill="#68d391"/>
+          </svg>
+        </div>
+        <div>
+          <h3>Student Housing Management System</h3>
+          <p>A comprehensive management system for student housing. Handles resident profiles, room assignments, maintenance requests, and billing. Built with database integration and user-friendly interface.</p>
+          <p class="meta">Tech: Java, Database · <a href="https://github.com/JD-creator95/Student-Housing-Management-System" target="_blank" rel="noopener">Source</a></p>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="thumb" aria-hidden="true">
+          <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+            <rect width="300" height="200" fill="url(#grad3)"/>
+            <defs>
+              <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#7c5cff;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#68d391;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <!-- Piggy bank -->
+            <ellipse cx="150" cy="110" rx="45" ry="50" fill="white"/>
+            <circle cx="120" cy="75" r="18" fill="white"/>
+            <!-- Coin slot -->
+            <rect x="135" y="50" width="30" height="8" fill="#ffd166" rx="4"/>
+            <!-- Legs -->
+            <rect x="125" y="155" width="8" height="20" fill="white"/>
+            <rect x="167" y="155" width="8" height="20" fill="white"/>
+            <!-- Snout -->
+            <circle cx="105" cy="100" r="12" fill="white"/>
+            <!-- Dollar sign -->
+            <text x="150" y="125" font-size="32" fill="#ffd166" text-anchor="middle" font-weight="bold">$</text>
+          </svg>
+        </div>
+        <div>
+          <h3>Bank Account</h3>
+          <p>A bank account management application demonstrating object-oriented principles. Supports deposits, withdrawals, balance inquiries, and transaction history with validation.</p>
+          <p class="meta">Tech: Java, OOP · <a href="https://github.com/JD-creator95/Bank-Account" target="_blank" rel="noopener">Source</a></p>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="thumb" aria-hidden="true">
+          <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+            <rect width="300" height="200" fill="url(#grad4)"/>
+            <defs>
+              <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#7c5cff;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#68d391;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <!-- Book -->
+            <rect x="80" y="50" width="140" height="100" fill="white" stroke="white" stroke-width="2"/>
+            <!-- Pages lines -->
+            <line x1="95" y1="70" x2="205" y2="70" stroke="#7c5cff" stroke-width="2"/>
+            <line x1="95" y1="85" x2="205" y2="85" stroke="#7c5cff" stroke-width="2"/>
+            <line x1="95" y1="100" x2="205" y2="100" stroke="#68d391" stroke-width="2"/>
+            <line x1="95" y1="115" x2="205" y2="115" stroke="#7c5cff" stroke-width="2"/>
+            <!-- Grade A+ -->
+            <text x="150" y="145" font-size="36" fill="white" text-anchor="middle" font-weight="bold">A+</text>
+          </svg>
+        </div>
+        <div>
+          <h3>Grading System</h3>
+          <p>An educational grading system for managing student records and grades. Calculates weighted averages, generates reports, and tracks academic performance across multiple subjects.</p>
+          <p class="meta">Tech: Java · <a href="https://github.com/JD-creator95/Grading-System" target="_blank" rel="noopener">Source</a></p>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="thumb" aria-hidden="true">
+          <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+            <rect width="300" height="200" fill="url(#grad5)"/>
+            <defs>
+              <linearGradient id="grad5" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#7c5cff;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#68d391;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <!-- Calculator body -->
+            <rect x="70" y="50" width="160" height="130" fill="white" rx="8"/>
+            <!-- Display -->
+            <rect x="85" y="65" width="130" height="30" fill="#2d2d2d"/>
+            <text x="215" y="85" font-size="20" fill="#68d391" text-anchor="end" font-weight="bold">42</text>
+            <!-- Buttons grid -->
+            <rect x="85" y="105" width="25" height="20" fill="#7c5cff"/>
+            <rect x="115" y="105" width="25" height="20" fill="#7c5cff"/>
+            <rect x="145" y="105" width="25" height="20" fill="#7c5cff"/>
+            <rect x="175" y="105" width="25" height="20" fill="#68d391"/>
+            <rect x="85" y="130" width="25" height="20" fill="#7c5cff"/>
+            <rect x="115" y="130" width="25" height="20" fill="#7c5cff"/>
+            <rect x="145" y="130" width="25" height="20" fill="#7c5cff"/>
+            <rect x="175" y="130" width="25" height="20" fill="#68d391"/>
+          </svg>
+        </div>
+        <div>
+          <h3>Basic Calculator</h3>
+          <p>A functional calculator application supporting basic arithmetic operations. Features a clean interface and proper error handling for mathematical operations.</p>
+          <p class="meta">Tech: Java · <a href="https://github.com/JD-creator95/Basic-Calculator" target="_blank" rel="noopener">Source</a></p>
+        </div>
+      </article>
+
+    </section>
+
+    <section class="container" id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title">Contact</h2>
+      <div class="contact-grid">
+        <div>
+          <p class="muted">Prefer email or LinkedIn. The email button above is spam-protected via JavaScript. You can also send a quick note here (this form just opens your mail client).</p>
+          <ul>
+            <li>LinkedIn: <a href="https://za.linkedin.com/in/juan-de-bruyn-043423165" target="_blank" rel="noopener">linkedin.com</a></li>
+            <li>GitHub: <a href="https://github.com/JD-creator95" target="_blank" rel="noopener">github.com</a></li>
+          </ul>
+        </div>
+        <div>
+          <form id="contactForm" action="mailto:" method="get">
+            <div>
+              <input type="text" name="subject" placeholder="Subject" required>
+              <div class="error-message" id="subjectError">Subject is required</div>
+            </div>
+            <div>
+              <textarea name="body" placeholder="Your message" required></textarea>
+              <div class="error-message" id="bodyError">Message is required</div>
+            </div>
+            <div class="right">
+              <button type="submit" class="btn">Open in Email App</button>
+            </div>
+            <p class="small muted">Note: For privacy, this form uses your default email client rather than sending from the site.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="spacer"></div>
+      <p>© <span id="year"></span> Juan De Bruyn. Built with vanilla HTML, CSS & JS. Hosted on GitHub Pages.</p>
+    </div>
+  </footer>
+
+  <script>
+    // ===== Minimal JS: year, theme toggle, email obfuscation, progress bars, and form validation =====
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Theme toggle with localStorage
+    (function() {
+      const btn = document.getElementById('themeToggle');
+      const key = 'theme';
+      
+      const darkTheme = {
+        '--bg': '#1a1a1a',
+        '--panel': '#2d2d2d',
+        '--text': '#e6e6e6',
+        '--muted': '#a3a3a3',
+        '--brand': '#7c5cff',
+        '--brand-2': '#68d391',
+        '--border': '#3d3d3d',
+        '--card': '#252525',
+        '--shadow': 'rgba(0,0,0,0.3)',
+        '--focus': '#ffd166'
+      };
+      
+      const lightTheme = {
+        '--bg': '#f5f5f5',
+        '--panel': '#ffffff',
+        '--text': '#2d2d2d',
+        '--muted': '#666666',
+        '--brand': '#7c5cff',
+        '--brand-2': '#68d391',
+        '--border': '#d0d0d0',
+        '--card': '#ffffff',
+        '--shadow': 'rgba(0,0,0,0.1)',
+        '--focus': '#9c4221'
+      };
+      
+      const apply = (t) => {
+        const theme = t === 'dark' ? darkTheme : lightTheme;
+        Object.entries(theme).forEach(([key, value]) => {
+          document.documentElement.style.setProperty(key, value);
+        });
+        document.documentElement.dataset.theme = t;
+        btn.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+        btn.textContent = t === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+      };
+      
+      const saved = localStorage.getItem(key);
+      if (saved) apply(saved);
+      
+      btn.addEventListener('click', () => {
+        const current = localStorage.getItem(key) || 'light';
+        const next = current === 'dark' ? 'light' : 'dark';
+        localStorage.setItem(key, next);
+        apply(next);
+      });
+    })();
+
+    // Email obfuscation (simple)
+    (function() {
+      const user = 'juandebruyn35';
+      const domain = 'gmail.com'; 
+      const email = user + '@' + domain;
+      const mailto = 'mailto:' + encodeURIComponent(email);
+      const link = document.getElementById('emailLink');
+      link.href = mailto;
+      link.textContent = 'Email ' + email;
+
+      // Hook up contact form to same email
+      const form = document.getElementById('contactForm');
+      form.action = 'mailto:' + email;
+    })();
+
+    // Smooth scroll (basic)
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if (el) {
+          e.preventDefault();
+          window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 56, behavior: 'smooth' });
+        }
+      });
+    });
+
+    // ===== Interactive Feature 1: Dynamic Skills Progress Bars =====
+    (function() {
+      const progressFills = document.querySelectorAll('.progress-fill');
+      
+      // Function to animate progress bar when scrolled into view
+      const animateProgressBar = (fill) => {
+        const target = parseInt(fill.dataset.target, 10);
+        let current = 0;
+        const increment = target / 30; // Animate over 30 steps
+        
+        const animate = () => {
+          current += increment;
+          if (current >= target) {
+            current = target;
+          }
+          fill.style.width = current + '%';
+          
+          if (current < target) {
+            requestAnimationFrame(animate);
+          }
+        };
+        animate();
+      };
+
+      // Use Intersection Observer to trigger animation when in view
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && entry.target.style.width === '0%') {
+            animateProgressBar(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+
+      progressFills.forEach(fill => observer.observe(fill));
+    })();
+
+    // ===== Interactive Feature 2: Form Validation =====
+    (function() {
+      const form = document.getElementById('contactForm');
+      const subjectInput = form.querySelector('input[name="subject"]');
+      const bodyInput = form.querySelector('textarea[name="body"]');
+      const subjectError = document.getElementById('subjectError');
+      const bodyError = document.getElementById('bodyError');
+
+      // Validate and add visual feedback on input
+      const validateField = (input, errorElement) => {
+        const isValid = input.value.trim().length > 0;
+        
+        if (isValid) {
+          input.classList.remove('invalid');
+          input.classList.add('valid');
+          errorElement.classList.remove('show');
+        } else {
+          input.classList.add('invalid');
+          input.classList.remove('valid');
+          errorElement.classList.add('show');
+        }
+        
+        return isValid;
+      };
+
+      // Listen for input changes
+      subjectInput.addEventListener('blur', () => validateField(subjectInput, subjectError));
+      bodyInput.addEventListener('blur', () => validateField(bodyInput, bodyError));
+
+      // Validate on form submission
+      form.addEventListener('submit', (e) => {
+        const subjectValid = validateField(subjectInput, subjectError);
+        const bodyValid = validateField(bodyInput, bodyError);
+
+        if (!subjectValid || !bodyValid) {
+          e.preventDefault();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
